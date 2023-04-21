@@ -2,17 +2,18 @@
 N = int(input())
 
 # 2. DP를 이용한 방법, 게임 횟수에 따른 승패 결정
-dp = [0] * (N+1)
+dp = [-1]*1001
+
 dp[1] = 1
-dp[2] = 2
+dp[2] = 0
+dp[3] = 1
 
-for i in range(3, N+1):
-    dp[i] = min(dp[i-1]+1, dp[i-3]+1)
-
-if dp[N] % 2 == 1:
-    print("SK")
-else:
-    print("CY")
+for i in range(4, N+1):
+    if dp[i-1] or dp[i-3]:
+        dp[i] = 0
+    else:
+        dp[i] = 1
+print('CY' if dp[N] == 0 else 'SK')
 
 '''
 첫 번째 문제 풀이 아이디어:
