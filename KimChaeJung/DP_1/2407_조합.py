@@ -2,7 +2,7 @@
 import sys
 input = sys.stdin.readline
 
-siteInfo = [[1 if m == n else 0 for m in range(101)] if n != 1 else [i for i in range(101)] for n in range(101)]
+siteInfo = [[1 if m == n else 0 for m in range(10)] if n != 1 else [i for i in range(10)] for n in range(10)]
 
 def memoSiteInfo(n, m):
     if siteInfo[n][m] == 0:
@@ -15,4 +15,5 @@ def memoSiteInfo(n, m):
 
 n, m = map(int, input().split())
 memoSiteInfo(m, n)
+
 print(siteInfo[m][n])
