@@ -1,3 +1,4 @@
+# https://www.acmicpc.net/problem/12933
 # 76ms
 recordedSound = input()
 

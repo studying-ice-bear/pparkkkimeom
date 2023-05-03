@@ -1,3 +1,4 @@
+# https://www.acmicpc.net/problem/2578
 # 40ms
 chulsuTable = [list(map(int, input().split())) for _ in range(5)]
 bingoCountTable = [[0]*5, [0]*5, [0]*2]

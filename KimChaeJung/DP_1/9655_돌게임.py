@@ -1,3 +1,4 @@
+# https://www.acmicpc.net/problem/9655
 # 44ms
 dolCount = int(input())
 
