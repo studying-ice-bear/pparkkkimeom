@@ -1,3 +1,4 @@
+# https://www.acmicpc.net/problem/20546
 # 44ms
 init = int(input())
 stockList = list(map(int, input().split()))

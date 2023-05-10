@@ -1,3 +1,4 @@
+# https://www.acmicpc.net/problem/21608
 # 184 ms
 N = int(input())
 
