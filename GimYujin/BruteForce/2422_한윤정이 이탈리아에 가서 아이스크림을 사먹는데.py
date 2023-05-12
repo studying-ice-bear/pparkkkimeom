@@ -1,51 +1,17 @@
-from collections import deque, defaultdict
-from copy import copy
+import sys
+input = sys.stdin.readline
 
-comb = deque()
-answer = 0
-N, M = map(int, input().split())
-notTogether = defaultdict(list)
+n, m = map(int, input().split())
+ice = [[False for _ in range(n)] for _ in range(n)]
+for i in range(m):
+    i1, i2 = map(int, input().split())
+    ice[i1 - 1][i2 - 1] = True
+    ice[i2 - 1][i1 - 1] = True
 
-for _ in range(M):
-    a, b = map(int, input().split())
-    notTogether[a].append(b)
-    notTogether[b].append(a)
+result = 0
 
-result = [0] * 3
-numbers = [i for i in range(1, N+1)]
-
-def dfs(depth, num):
-    global answer
-    if depth == 3:
-        # print(*result)
-
-        new_result = copy(result)
-        new_result.sort()
-        if new_result not in comb:
-            answer += 1
-            comb.append(new_result)
-        return
-
-    for i in range(num, N+1):
-
-        if i in notTogether[num]:
-            continue
-
-        if num in notTogether[i]:
-            continue
-
-        if visited[i]:
-            continue
-
-        visited[i] = True
-        result[depth] = i
-        visited[i] = True
-        dfs(depth+1, i)
-        visited[i] = False
-
-
-for i in range(1, N+1):
-    visited = [False] * (N + 1)
-    dfs(0, i)
-
-print(answer)
+for i in range(n):
+    for j in range(i + 1, n):
+        for k in range(j + 1, n):
+            if not ice[i][j] and not ice[i][k] and not ice[j][k]:
+                result += 1
