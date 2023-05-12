@@ -1,5 +1,8 @@
-import copy
-from collections import defaultdict
+from collections import deque, defaultdict
+from copy import copy
+
+comb = deque()
+answer = 0
 N, M = map(int, input().split())
 notTogether = defaultdict(list)
 
@@ -8,47 +11,41 @@ for _ in range(M):
     notTogether[a].append(b)
     notTogether[b].append(a)
 
-result = []
+result = [0] * 3
+numbers = [i for i in range(1, N+1)]
+
+def dfs(depth, num):
+    global answer
+    if depth == 3:
+        # print(*result)
+
+        new_result = copy(result)
+        new_result.sort()
+        if new_result not in comb:
+            answer += 1
+            comb.append(new_result)
+        return
+
+    for i in range(num, N+1):
+
+        if i in notTogether[num]:
+            continue
+
+        if num in notTogether[i]:
+            continue
+
+        if visited[i]:
+            continue
+
+        visited[i] = True
+        result[depth] = i
+        visited[i] = True
+        dfs(depth+1, i)
+        visited[i] = False
+
+
 for i in range(1, N+1):
-    tmp = []
-    tmp.append(i)
-    for j in range(1, N+1):
-        if i == j:
-            continue
+    visited = [False] * (N + 1)
+    dfs(0, i)
 
-        if j in notTogether[i]:
-            continue
-        if i in notTogether[j]:
-            continue
-
-        tmp.append(j)
-
-        for k in range(1, N+1):
-            if k == i or k == j:
-                continue
-
-            if k in notTogether[i]:
-                continue
-
-            if k in notTogether[j]:
-                continue
-
-            if i in notTogether[k]:
-                continue
-
-            if j in notTogether[k]:
-                continue
-
-            tmp.append(k)
-
-            new_tmp = copy.deepcopy(tmp)
-            new_tmp.sort()
-
-            if new_tmp not in result:
-                result.append(new_tmp)
-
-            tmp.pop()
-
-        tmp.pop()
-
-print(len(result))
+print(answer)
