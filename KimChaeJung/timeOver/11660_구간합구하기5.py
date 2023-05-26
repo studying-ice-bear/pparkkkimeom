@@ -1,3 +1,4 @@
+# https://www.acmicpc.net/problem/11660
 # 시간 초과 - 완전 탐색
 import sys
 input = sys.stdin.readline
