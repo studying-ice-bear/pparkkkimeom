@@ -1,3 +1,4 @@
+from collections import deque
 import sys
 input = sys.stdin.readline
 T = int(input())
@@ -13,7 +14,6 @@ for _ in range(T):
 
     visited = [False] * (N+1)
 
-
     def dfs(x, cnt):
         visited[x] = True
         for node in graph[x]:
@@ -21,8 +21,31 @@ for _ in range(T):
                 cnt = dfs(node, cnt+1)
         return cnt
 
+    # print(dfs(1, 0))
 
-    print(dfs(1, 0))
+    def bfs(start, cnt):
+        que = deque()
+        que.append(start)
+        visited[start] = True
+
+        while que:
+            check = False
+            for i in range(1, N + 1):
+                if not visited[i]:
+                    check = True
+                    break
+
+            if check:
+                x = que.popleft()
+                for node in graph[x]:
+                    if not visited[node]:
+                        que.append(node)
+                        cnt += 1
+                        visited[node] = True
+            else:
+                return cnt
+
+    print(bfs(1, 0))
 
 '''
 2
