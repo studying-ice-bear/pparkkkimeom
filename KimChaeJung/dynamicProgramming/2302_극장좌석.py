@@ -1,4 +1,5 @@
 # https://www.acmicpc.net/problem/2302
+# 48ms
 N = int(input())
 M = int(input())
 
