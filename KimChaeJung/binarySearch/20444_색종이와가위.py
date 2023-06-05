@@ -2,34 +2,42 @@
 
 n, k = map(int, input().split())
 
-# for i in range(1, n//2+1):
-#     cutPaper = (i+1)*(n-i+1)
-#     if cutPaper > k:
-#         print('NO')
-#         exit()
-#     if cutPaper == k:
-#         print('YES')
-#         exit()
-# print('NO')
+# 시간 초과
+'''
+for i in range(1, n//2+1):
+    cutPaper = (i+1)*(n-i+1)
+    if cutPaper > k:
+        print('NO')
+        exit()
+    if cutPaper == k:
+        print('YES')
+        exit()
+print('NO')
+'''
 
+# 시간 초과
+'''
 pointer = n//2
 pointerList = [pointer]
-# while True:
-#     possibleCut = (pointer + 1) * (n - pointer + 1)
-#     if pointer > n//2 or 0 > pointer:
-#         break
-#     if possibleCut == k:
-#         print('YES')
-#         exit()
-#     elif possibleCut > k:
-#         pointer -= pointer//2
-#     else:
-#         pointer += pointer//2
-#     if pointer in pointerList:
-#         break
-#     pointerList.append(pointer)
+while True:
+    possibleCut = (pointer + 1) * (n - pointer + 1)
+    if pointer > n//2 or 0 > pointer:
+        break
+    if possibleCut == k:
+        print('YES')
+        exit()
+    elif possibleCut > k:
+        pointer -= pointer//2
+    else:
+        pointer += pointer//2
+    if pointer in pointerList:
+        break
+    pointerList.append(pointer)
+print('NO')
+'''
 
-# print('NO')
+
+# 40ms
 start, end = 0, n//2
 while start <= end:
     mid = (start + end) // 2
