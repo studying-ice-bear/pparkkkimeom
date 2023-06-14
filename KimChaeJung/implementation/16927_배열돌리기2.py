@@ -53,7 +53,6 @@ basicCircuitSet = makeCircuitSet(N, M)
 rotatedCircuitList = rotateCircuit(basicCircuitSet, R)
 rotatedIndexList = putPointAfterRotate(
     basicCircuitSet, rotatedCircuitList, N, M)
-
 for i in range(N):
     eachRow = []
     for j in range(M):
