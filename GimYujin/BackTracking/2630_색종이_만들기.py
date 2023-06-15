@@ -7,16 +7,16 @@ blue = 0
 white = 0
 
 
-def dfs(x, y, N):
+def bt(x, y, N):
     global white, blue
     color = graph[x][y]
     for i in range(x, x+N):
         for j in range(y, y+N):
             if color != graph[i][j]:
-                dfs(x, y, N//2)
-                dfs(x, y+N//2, N//2)
-                dfs(x+N//2, y, N//2)
-                dfs(x+N//2, y+N//2, N//2)
+                bt(x, y, N // 2)
+                bt(x, y + N // 2, N // 2)
+                bt(x + N // 2, y, N // 2)
+                bt(x + N // 2, y + N // 2, N // 2)
                 return
 
     if color == 0:
@@ -25,6 +25,6 @@ def dfs(x, y, N):
         blue += 1
 
 
-dfs(0, 0, N)
+bt(0, 0, N)
 print(white)
 print(blue)
