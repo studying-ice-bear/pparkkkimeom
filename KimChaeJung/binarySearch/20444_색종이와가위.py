@@ -3,6 +3,7 @@
 n, k = map(int, input().split())
 
 # 시간 초과
+
 '''
 for i in range(1, n//2+1):
     cutPaper = (i+1)*(n-i+1)
@@ -16,6 +17,7 @@ print('NO')
 '''
 
 # 시간 초과
+
 '''
 pointer = n//2
 pointerList = [pointer]
@@ -38,6 +40,7 @@ print('NO')
 
 
 # 40ms
+
 start, end = 0, n//2
 while start <= end:
     mid = (start + end) // 2

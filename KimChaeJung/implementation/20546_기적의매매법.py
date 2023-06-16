@@ -1,7 +1,10 @@
 # https://www.acmicpc.net/problem/20546
+
 # 44ms
+
 init = int(input())
 stockList = list(map(int, input().split()))
+
 
 def calBNPResult(init, stockList):
     currentMoney = init
@@ -12,6 +15,7 @@ def calBNPResult(init, stockList):
             currentMoney = left
             currentStock += buyedStock
     return currentMoney + stockList[-1] * currentStock
+
 
 def cal33Result(init, stockList):
     currentMoney = init
@@ -34,6 +38,7 @@ def cal33Result(init, stockList):
             currentMoney += currentStock * stockList[idx]
             currentStock = 0
     return currentMoney + stockList[-1] * currentStock
+
 
 BNPResult = calBNPResult(init, stockList)
 TIMINGResult = cal33Result(init, stockList)

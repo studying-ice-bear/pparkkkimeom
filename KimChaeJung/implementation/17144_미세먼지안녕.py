@@ -1,4 +1,7 @@
 # https://www.acmicpc.net/problem/17144
+
+# 3936ms
+
 import copy
 R, C, T = map(int, input().split())
 roomInfo = []
@@ -10,6 +13,7 @@ for i in range(R):
     if eachRow[0] == -1:
         airCleaner.append((i, 0))
     roomInfo.append(eachRow)
+
 
 def spread(room):
     afterSpread = [[0 for _ in range(C)] for _ in range(R)]
@@ -33,9 +37,10 @@ def spread(room):
                 if (newR, newC) in airCleaner:
                     continue
                 afterSpread[newR][newC] += hwaksanMunji
-                hwaksanCount +=1
+                hwaksanCount += 1
             afterSpread[r][c] += munji - hwaksanMunji*hwaksanCount
     return afterSpread
+
 
 def makeCircuit(start, isUpper):
     x, y = start
@@ -52,15 +57,17 @@ def makeCircuit(start, isUpper):
         circuitList.append((r, 0))
     return circuitList
 
-def cleanCircuit(circuit,origin, afterClean):
+
+def cleanCircuit(circuit, origin, afterClean):
     for idx in range(len(circuit)-1):
         curPointR, curPointC = circuit[idx]
         nextPointR, nextPointC = circuit[idx+1]
-        if idx==0:
+        if idx == 0:
             afterClean[nextPointR][nextPointC] = 0
             continue
         afterClean[nextPointR][nextPointC] = origin[curPointR][curPointC]
     return afterClean
+
 
 def turnOnAC(room):
     afterClean = copy.deepcopy(room)
@@ -73,12 +80,13 @@ def turnOnAC(room):
 
     return afterClean
 
+
 for _ in range(T):
     roomInfo = spread(roomInfo)
     roomInfo = turnOnAC(roomInfo)
-    
+
 answer = 0
 for row in roomInfo:
     answer += sum(row)
-    
+
 print(answer+2)

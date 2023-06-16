@@ -1,4 +1,7 @@
 # https://www.acmicpc.net/problem/15787
+
+# 228ms
+
 import sys
 input = sys.stdin.readline
 

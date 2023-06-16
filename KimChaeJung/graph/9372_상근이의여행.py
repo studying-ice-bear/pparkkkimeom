@@ -1,5 +1,7 @@
 # https://www.acmicpc.net/problem/9372
+
 # 192ms
+
 import sys
 import heapq
 input = sys.stdin.readline

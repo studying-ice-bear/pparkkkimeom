@@ -1,5 +1,7 @@
 # https://www.acmicpc.net/problem/22858
+
 # 1704ms
+
 import sys
 input = sys.stdin.readline
 N, K = map(int, input().split())

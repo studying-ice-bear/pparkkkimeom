@@ -1,4 +1,7 @@
 // https://www.acmicpc.net/problem/2630
+
+// 244ms
+
 const [n, ...arr] = require("fs").readFileSync("/dev/stdin").toString().trim().split(/\n/);
 
 const paperInfo = arr.map((row) => row.split(" "));

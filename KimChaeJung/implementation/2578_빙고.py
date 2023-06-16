@@ -1,8 +1,11 @@
 # https://www.acmicpc.net/problem/2578
+
 # 40ms
+
 chulsuTable = [list(map(int, input().split())) for _ in range(5)]
 bingoCountTable = [[0]*5, [0]*5, [0]*2]
 targetTable = []
+
 
 def countBingo(x, y):
     bingoCountTable[0][x] += 1
@@ -12,6 +15,7 @@ def countBingo(x, y):
     if x+y == 4:
         bingoCountTable[2][1] += 1
 
+
 def isBingoComplete(table):
     bingoCount = 0
     for row in table:
@@ -20,11 +24,13 @@ def isBingoComplete(table):
         return True
     return False
 
+
 def findIdx(writtenTable, targetNum):
     for rowIdx in range(5):
         for colIdx in range(5):
             if writtenTable[rowIdx][colIdx] == targetNum:
                 return (rowIdx, colIdx)
+
 
 for _ in range(5):
     targetNums = list(map(int, input().split()))
@@ -36,7 +42,3 @@ for idx in range(len(targetTable)):
     if isBingoComplete(bingoCountTable):
         print(idx + 1)
         break
-
-
-# print(chulsuTable)
-# print(targetTable)
