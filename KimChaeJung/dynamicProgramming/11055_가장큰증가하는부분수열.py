@@ -1,5 +1,7 @@
 # https://www.acmicpc.net/problem/11055
-# 120 ms
+
+# 120ms
+
 import sys
 input = sys.stdin.readline
 
@@ -13,7 +15,7 @@ for numIdx in range(1, len(numList)):
     for preNumIdx in range(numIdx-1, -1, -1):
         if numList[preNumIdx] < numList[numIdx]:
             possibleSumList.append(numList[numIdx] + sumList[preNumIdx])
-    if len(possibleSumList)>0:
+    if len(possibleSumList) > 0:
         sumList.append(max(possibleSumList))
     else:
         sumList.append(numList[numIdx])

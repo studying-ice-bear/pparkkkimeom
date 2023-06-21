@@ -1,5 +1,7 @@
 # https://www.acmicpc.net/problem/21736
 
+# 484ms
+
 N, M = map(int, input().split())
 
 campusMapInfo = []

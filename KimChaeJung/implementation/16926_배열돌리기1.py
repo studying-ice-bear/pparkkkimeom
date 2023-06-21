@@ -1,4 +1,7 @@
 # https://www.acmicpc.net/problem/16926
+
+# 224ms
+
 N, M, R = map(int, input().split())
 
 arrayInfo = []
@@ -6,6 +9,7 @@ arrayInfo = []
 for _ in range(N):
     row = list(map(int, input().split()))
     arrayInfo.append(row)
+
 
 def makeLoopPoints(N, M, startPoint):
     loopPointList = []
@@ -20,10 +24,11 @@ def makeLoopPoints(N, M, startPoint):
         loopPointList.append((0+x, j+y))
     return loopPointList
 
+
 def makeLoopList(N, M):
     loopList = []
     startPoint = (0, 0)
-    isNSmaller = True if N<=M else False
+    isNSmaller = True if N <= M else False
     if isNSmaller:
         for i in range(N, 0, -2):
             loopList.append(makeLoopPoints(i, M, startPoint))
@@ -46,7 +51,9 @@ def rotateLoopList(loopList, count):
         result.append(loopPoints)
     return result
 
+
 rotatedResult = rotateLoopList(makeLoopList(N, M), R)
+
 
 def putPointToList(rotatedLoopList, N, M):
     originLoopList = makeLoopList(N, M)
@@ -58,7 +65,9 @@ def putPointToList(rotatedLoopList, N, M):
             newPointList[x][y] = rotatedLoopList[loopPointsIdx][originPointIdx]
     return newPointList
 
+
 rotatedPointResult = putPointToList(rotatedResult, N, M)
+
 
 def makeRotatedList(origin, rotatedPointList, N, M):
     newList = [[0 for _ in range(M)] for _ in range(N)]
@@ -67,6 +76,7 @@ def makeRotatedList(origin, rotatedPointList, N, M):
             x, y = rotatedPointList[rowIdx][colIdx]
             newList[rowIdx][colIdx] = origin[x][y]
     return newList
+
 
 answer = makeRotatedList(arrayInfo, rotatedPointResult, N, M)
 

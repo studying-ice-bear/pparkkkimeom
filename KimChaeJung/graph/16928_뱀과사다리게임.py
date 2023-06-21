@@ -1,11 +1,14 @@
 # https://www.acmicpc.net/problem/16928
+
+# 44ms
+
 sadari, bam = map(int, input().split())
-numGraph = {n : [] for n in range(1, 101)}
+numGraph = {n: [] for n in range(1, 101)}
 
 for _ in range(sadari):
     a, b = map(int, input().split())
     numGraph[a].append((0, b))
-    
+
 for _ in range(bam):
     a, b = map(int, input().split())
     numGraph[a].append((0, b))
@@ -16,6 +19,7 @@ for key, value in numGraph.items():
             if key + i > 100:
                 break
             numGraph[key].append((i, key+i))
+
 
 def BFS(boardInfo):
     visited = [0 for _ in range(101)]
@@ -28,7 +32,7 @@ def BFS(boardInfo):
         if curCell == 100:
             print(curRollCount)
             return
-        
+
         for roll, goTo in boardInfo[curCell]:
             if roll == 0:
                 visited[goTo] = 1
@@ -37,5 +41,6 @@ def BFS(boardInfo):
             if visited[goTo] == 0:
                 visited[goTo] = 1
                 queue.append((goTo, curRollCount+1))
+
 
 BFS(numGraph)

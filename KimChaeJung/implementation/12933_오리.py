@@ -1,5 +1,7 @@
 # https://www.acmicpc.net/problem/12933
+
 # 76ms
+
 recordedSound = input()
 
 recordedStack = [0 for _ in range(501)]

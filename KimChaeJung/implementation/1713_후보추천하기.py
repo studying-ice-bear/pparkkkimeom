@@ -1,5 +1,7 @@
 # https://www.acmicpc.net/problem/1713
+
 # 76ms
+
 N = int(input())
 recCount = int(input())
 recList = list(map(int, input().split()))
@@ -36,33 +38,6 @@ for student in recList[1:]:
                 frameList[recIdx][1] += 1
                 studentList[student] += 1
                 break
-
-    # if len(frameList) >= N:
-    #     if studentList[student] == 0:
-    #         for recIdx in range(len(frameList)):
-    #             minimumRecCount = findMinimumVal(studentList)
-    #             if frameList[recIdx][1] == minimumRecCount:
-    #                 outStudent = frameList.pop(recIdx)
-    #                 studentList[outStudent[0]] = 0
-    #                 frameList.append([student, 1])
-    #                 studentList[student] += 1
-    #                 break
-    #     else:
-    #         for recIdx in range(len(frameList)):
-    #             if frameList[recIdx][0] == student:
-    #                 frameList[recIdx][1] += 1
-    #                 studentList[student] += 1
-    #                 break
-    # else:
-    #     if studentList[student] == 0:
-    #         frameList.append([student, 1])
-    #         studentList[student] += 1
-    #     else:
-    #         for recIdx in range(len(frameList)):
-    #             if frameList[recIdx][0] == student:
-    #                 frameList[recIdx][1] += 1
-    #                 studentList[student] += 1
-    #                 break
 
 answer = []
 for frameStudentInfo in frameList:

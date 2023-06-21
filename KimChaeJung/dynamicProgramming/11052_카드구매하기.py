@@ -1,4 +1,7 @@
 # https://www.acmicpc.net/problem/11052
+
+# 216ms
+
 cardCount = int(input())
 cardPrice = list(map(int, input().split()))
 cardPrice.insert(0, 0)

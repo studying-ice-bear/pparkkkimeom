@@ -1,4 +1,7 @@
 # https://www.acmicpc.net/problem/16927
+
+# 180ms
+
 N, M, R = map(int, input().split())
 
 originArray = []

@@ -1,5 +1,7 @@
 # https://www.acmicpc.net/problem/5212
+
 # 틀렸습니다
+
 '''
 R, C = map(int, input().split())
 
@@ -68,7 +70,9 @@ for row in range(R):
         continue
     print(*completedRow, sep='')
 '''
+
 # 44ms
+
 R, C = map(int, input().split())
 originMap = []
 

@@ -1,5 +1,7 @@
 # https://www.acmicpc.net/problem/21608
+
 # 184 ms
+
 N = int(input())
 
 studentList = []
@@ -17,21 +19,24 @@ news = [(-1, 0), (0, 1), (0, -1), (1, 0)]
 for injup in news:
     injupList[1+injup[0]][1+injup[1]].append(studentList[0][0])
 
+
 def findByCondition01(fullSeat, injupList, likedStudents):
     possibleSeat = []
     for rowIdx in range(len(injupList)):
         for colIdx in range(len(injupList[0])):
             likeCount = 0
-            if fullSeat[rowIdx][colIdx] != 0: 
+            if fullSeat[rowIdx][colIdx] != 0:
                 continue
             for likeStudent in likedStudents:
                 if likeStudent in injupList[rowIdx][colIdx]:
                     likeCount += 1
             possibleSeat.append([likeCount, rowIdx, colIdx])
     possibleSeat.sort(key=lambda x: x[0], reverse=True)
-    filteredSeat = list(filter(lambda x: x[0] == possibleSeat[0][0], possibleSeat))
+    filteredSeat = list(
+        filter(lambda x: x[0] == possibleSeat[0][0], possibleSeat))
     # [[X, Y],...]
-    return list(map(lambda x:x[1:], filteredSeat))
+    return list(map(lambda x: x[1:], filteredSeat))
+
 
 def findByCondition02(sittingList, possibleSeat):
     possibleSeatBy02 = []
@@ -45,13 +50,16 @@ def findByCondition02(sittingList, possibleSeat):
                 emptyCount += 1
         possibleSeatBy02.append([emptyCount, x, y])
     possibleSeatBy02.sort(key=lambda x: x[0], reverse=True)
-    filteredSeat = list(filter(lambda x: x[0] == possibleSeatBy02[0][0], possibleSeatBy02))
+    filteredSeat = list(
+        filter(lambda x: x[0] == possibleSeatBy02[0][0], possibleSeatBy02))
     # [[X, Y], ...]
-    return list(map(lambda x:x[1:], filteredSeat))
+    return list(map(lambda x: x[1:], filteredSeat))
+
 
 def findByCondition03(possibleSeat):
-    possibleSeat.sort(key = lambda x:(x[0], x[1]))
+    possibleSeat.sort(key=lambda x: (x[0], x[1]))
     return possibleSeat[0]
+
 
 def setStudent(seat, injupSeat, targetStudent, possibleSeat):
     x, y = possibleSeat
@@ -63,6 +71,8 @@ def setStudent(seat, injupSeat, targetStudent, possibleSeat):
     return (seat, injupSeat)
 
 # 그 이후 학생 세팅
+
+
 def settingStudents(students, seat, injup):
     fullSeat = seat
     injupSeat = injup
@@ -80,11 +90,14 @@ def settingStudents(students, seat, injup):
                 possibleSeat = possibleSeat02[0]
             else:
                 possibleSeat = findByCondition03(possibleSeat02)
-        fullSeat, injupSeat = setStudent(fullSeat, injupSeat, targetStudent, possibleSeat)
+        fullSeat, injupSeat = setStudent(
+            fullSeat, injupSeat, targetStudent, possibleSeat)
 
     return (fullSeat, injupSeat)
 
+
 seatResult, injupResult = settingStudents(studentList, sittingList, injupList)
+
 
 def calculateSatisfaction(seatResult, studentList):
     totalSatisfaction = 0
@@ -102,7 +115,9 @@ def calculateSatisfaction(seatResult, studentList):
                         if seatResult[rowIdx+injup[0]][colIdx+injup[1]] in likedStudents:
                             likedCount += 1
                 # 1이면 1, 2이면 10, 3이면 100, 4이면 1000
-                totalSatisfaction += 10 ** (likedCount - 1) if likedCount > 0 else 0
+                totalSatisfaction += 10 ** (likedCount -
+                                            1) if likedCount > 0 else 0
     return totalSatisfaction
+
 
 print(calculateSatisfaction(seatResult, studentList))

@@ -1,4 +1,7 @@
 # https://www.acmicpc.net/problem/14430
+
+# 116ms
+
 N, M = map(int, input().split())
 area = []
 summedArea = []

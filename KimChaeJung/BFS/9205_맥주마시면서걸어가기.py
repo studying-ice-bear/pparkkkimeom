@@ -1,5 +1,7 @@
 # https://www.acmicpc.net/problem/9205
 
+# 52ms
+
 import sys
 import itertools
 input = sys.stdin.readline
