@@ -23,6 +23,12 @@ a, b, c = map(int, input().split())
 
 
 def getLeft(ax, bx, cx):
+    # A**n의 나머지 == A**(n-k)의 나머지 * A**(k)의 나머지
+    # C**2n == (C**2)**n
+    # 연산 횟수 비교: 2n > 1 + n
+    # c **16 == c ** 2 ** 8 == c ** 4 ** 4
+    # C**n == (C**(k))**k     *(n = k*k)
+    # C**n == (C**(k))**k * C**(n-k*k)
 
     bxSqrt = getSquareRoot(bx)
     bxLeft = bx - bxSqrt*bxSqrt
