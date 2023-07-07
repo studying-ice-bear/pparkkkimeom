@@ -44,8 +44,8 @@ for i in range(N):
 
     majorArr = boye_moore_majority_vote(army)
     major = majorArr[0]
-    major_army = majorArr[1]
-    # major_army = getArmyCount(army, major)
+    # major_army = majorArr[1]
+    major_army = getArmyCount(army, major)
 
     if major_army > M // 2:
         print(major)
