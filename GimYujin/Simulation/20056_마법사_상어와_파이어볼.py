@@ -67,7 +67,7 @@ def fireburn():
                 if (evenDirection != 0 and oddDirection == 0) or (evenDirection == 0 and oddDirection != 0):
                     direction = True
 
-                mass = totalMass//5
+                mass = totalMass // 5
                 speed = totalSpeed//fireLength
 
                 if mass <= 0:
@@ -119,15 +119,16 @@ def getTotalMass(graph):
 
 for k in range(K):
     board = firemove(fireball)
-    print(k)
-    print("fireMove")
-    print(*board, sep="\n")
+    # print(k)
+    # print("fireMove")
+    # print(*board, sep="\n")
+
     board = fireburn()
-    print("after fire burn")
-    print(*board, sep="\n")
-    print("new fireballs")
-    print(fireball)
-    print()
+    # print("after fire burn")
+    # print(*board, sep="\n")
+    # print("new fireballs")
+    # print(fireball)
+    # print()
 
 print(getTotalMass(board))
 
