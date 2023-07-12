@@ -1,3 +1,13 @@
+'''
+참고: https://codecollector.tistory.com/678
+
+건물을 쌓으려면 내가 블록을 뺀 것과 가지고있는 블록이 쌓아야하는 건물의 높이보다 커야 가능하다.
+remove: 내가 블록을 뺀 것
+B: 가지고 있는 블록의 수
+build: 쌓아야 하는 블록의 수
+
+if B + remove - build >= 0:
+'''
 import sys
 input = sys.stdin.readline
 N, M, B = map(int, input().split())
@@ -25,4 +35,4 @@ for h in range(257):
             time = tmp
             height = h
 
-print(time, h)
+print(time, height)
