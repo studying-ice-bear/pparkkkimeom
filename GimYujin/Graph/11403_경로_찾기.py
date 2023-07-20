@@ -33,8 +33,8 @@ def bfs(start):
                 answer[start-1][node-1] = 1
 
 for i in range(1, N+1):
-    # bfs(i)
-    dfs(i, i)
+    bfs(i)
+    # dfs(i, i)
 
 for ans in answer:
     print(*ans)
