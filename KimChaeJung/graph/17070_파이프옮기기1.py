@@ -1,5 +1,5 @@
 # https://www.acmicpc.net/problem/17070
-
+# 44 ms
 N = int(input())
 
 houseInfo = []
