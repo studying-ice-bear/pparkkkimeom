@@ -24,9 +24,9 @@ def gcd(n1, n2):
 
     return n1
 
-if dx != 0 and dy != 0:
-    N = gcd(dx, dy)
-    dx, dy = dx//N, dy//N
+
+N = gcd(dx, dy)
+dx, dy = dx//N, dy//N
 
 cx, cy = ex, ey
 while True:
