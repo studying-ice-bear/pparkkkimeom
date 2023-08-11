@@ -12,7 +12,6 @@ dy = [-1, 1, 0, 0]
 length = 0
 visited = [[False for _ in range(M)] for _ in range(N)]
 
-group = []
 def bfs(s_x, s_y):
     global length
     que = deque()
