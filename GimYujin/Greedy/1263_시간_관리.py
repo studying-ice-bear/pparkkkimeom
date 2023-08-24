@@ -10,19 +10,16 @@ for _ in range(N):
 arr.sort(reverse=True)
 
 # 가장 늦게까지 한 일부터 시작해서 갱신하기
-fe, ft = arr[0][0], arr[0][1]
-start = fe-ft
+start = arr[0][0]-arr[0][1]
 
-cannot = False
 for i in range(1, N):
     ee, tt = arr[i][0], arr[i][1]
-    if start > ee-tt >= 0:
+    if start > ee:
         start = ee-tt
     else:
-        cannot = True
-        break
+        start -= tt
 
-if cannot:
-    print(-1)
-else:
+if start >= 0:
     print(start)
+else:
+    print(-1)
