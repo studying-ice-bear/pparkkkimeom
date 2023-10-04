@@ -1,35 +1,28 @@
-
 N, K = map(int, input().split())
-arr = []
+numbers = []
 for _ in range(N):
-    tmp = int(input())
-    arr.append(tmp)
+    num = int(input())
+    numbers.append(num)
 
-while K > 1:
-    arr.sort()
-    small = min(arr)
+numbers.sort()
 
-    cnt = 0
+start, end = numbers[0], numbers[-1]+K
 
-    for i in range(len(arr)):
-        if arr[i] == small:
-            cnt += 1
-        else:
+answer = 0
+
+while start <= end:
+    mid = (start+end)//2
+
+    total = 0
+    for n in numbers:
+        if n >= mid:
             break
+        total += mid - n
 
-    if cnt != 1:
-        second = arr[cnt-1]
+    if total <= K:
+        answer = mid
+        start = mid + 1
     else:
-        second = arr[1]
+        end = mid - 1
 
-    if second-small < K:
-        if small == second:
-            arr[0] += K//cnt
-            K -= K//cnt
-        else:
-            arr[0] += second-small
-            K -= second-small
-    else:
-        arr[0] += second - small
-
-print(min(arr))
+print(answer)
