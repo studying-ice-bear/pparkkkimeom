@@ -1,3 +1,9 @@
+'''
+python 통과 코드:
+https://www.acmicpc.net/source/67477046
+https://www.acmicpc.net/source/62726652
+'''
+
 # 회전 초밥 벨트에 놓인 접시의 수 N,
 # 초밥의 가짓수 d,
 # 연속해서 먹는 접시의 수 k,
