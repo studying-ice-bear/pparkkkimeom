@@ -1,4 +1,45 @@
 from collections import deque
+N = int(input())
+arr = list(map(int, input().split()))
+balloons = [i for i in range(1, N + 1)]
+
+que = deque()
+que.append((arr[0], 1))
+
+answer = []
+curr = 0
+
+while arr:
+    # print("curr: ", curr)
+    balloon = balloons.pop(curr)
+    num = arr.pop(curr)
+    answer.append(balloon)
+
+    # print("after")
+    # print(arr)
+    # print(balloons)
+
+    length = 0
+    if len(arr) == 0:
+        length = 1
+    else:
+        length = len(arr)
+
+    if num < 0:
+        next = (length + curr + num) % length
+    else:
+        next = (curr + num - 1) % length
+
+    # print("next: ", next)
+    curr = next
+    # print()
+    # print(answer)
+    # print()
+
+print(*answer)
+
+''' deque, enumerate 사용
+from collections import deque
 n = int(input())
 q = deque(enumerate(map(int,input().split())))
 ans=[]
@@ -12,47 +53,7 @@ while q:
         q.rotate(-num)
 
 print(' '.join(map(str,ans)))
-
-#
-# N = int(input())
-# arr = list(map(int, input().split()))
-# balloons = [i for i in range(1, N + 1)]
-#
-# que = deque()
-# que.append((arr[0], 1))
-#
-# answer = []
-# curr = 0
-#
-# while arr:
-#     print("curr: ", curr)
-#     balloon = balloons.pop(curr)
-#     num = arr.pop(curr)
-#     answer.append(balloon)
-#
-#     print("after")
-#     print(arr)
-#     print(balloons)
-#     length = 0
-#     if len(arr) == 0:
-#         length = 1
-#     else:
-#         length = len(arr)
-#
-#     if num < 0:
-#         next = (curr + num) % length
-#     else:
-#         next = (curr + num - 1) % length
-#
-#     print("next: ", next)
-#     curr = next
-#     print()
-#     print(answer)
-#     print()
-#
-# print(*answer)
-
-
+'''
 '''
 5
 -1 -1 -1 -1 -1
