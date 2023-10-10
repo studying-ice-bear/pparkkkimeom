@@ -13,7 +13,7 @@ for _ in range(M):
     sea[fx][fy].append(d-1)
 
 sx, sy = map(int, input().split())
-sea[sx][sy].append(-2)
+sea[sx][sy].append(0)
 
 shark_moves = []
 def getSharkMoves(cnt, move):
@@ -28,26 +28,22 @@ def getSharkMoves(cnt, move):
 
 getSharkMoves(0, [])
 
-
 answer = 0
-visited = [[True for _ in range(4)] for _ in range(4)]
-
-
 def fishMove(fishs, graph):
     global sx, sy   # 상어 위치
 
     while fishs:
         fish_x, fish_y, fish_d = fishs.popleft()
-        graph[fish_x][fish_y].remove(fish_d)
 
-        for i in range(8):
-            nd = fish_d-i if fish_d - i > 0 else 8 - fish_d - i
+        for i in range(0, -8, -1):
+            nd = fish_d + i if fish_d + i > 0 else 8 + fish_d + i - 1
             nx = fish_x + fish_direction[nd][0]
             ny = fish_y + fish_direction[nd][1]
 
-            if nx != sx and ny != sy:
+            if not (nx == sx and ny == sy):
                 if 0 < nx < 5 and 0 < ny < 5:
                     graph[nx][ny].append(nd)
+                    graph[fish_x][fish_y].remove(fish_d)
                     break
 
     return graph
@@ -62,45 +58,67 @@ def fishMove(fishs, graph):
 # print(*new_x, sep="\n")
 def getFishQue(graph):
     que = deque()
-    for i in range(6):
-        for j in range(6):
+    for i in range(5):
+        for j in range(5):
             if graph[i][j]:
                 for d in graph[i][j]:
                     que.append((i, j, d))
 
     return que
 
-
-def moveShark(d, fish_que=fish_que):
-    fish_count = 0
-    new_sea = fishMove(fish_que, copy.deepcopy(sea))
-    fish_que = getFishQue(new_sea)
-
-    tmp_sx, tmp_sy = sx, sy
-    for i in range(3):
-        new_sx = tmp_sx + shark_direction[d][0]
-        new_sy = tmp_sy + shark_direction[d][1]
-
-        if 0 < new_sx < 5 and 0 < new_sy < 5:
-            if new_sea[new_sx][new_sy]:
-                fish_count += len(new_sea[new_sx][new_sy])
-                new_sea[new_sx][new_sy] = [-2]  # 물고기 냄새
-
-            tmp_sx = new_sx
-            tmp_sy = new_sy
-
-    return new_sea
+def putCopiedFish(sea_graph, fish_que):
+    while fish_que:
+        x, y, d = fish_que.popleft()
 
 
 def copyMagic(cnt, sea_graph, fish_count):
     global answer
+
     if cnt == S:
         answer = max(answer, fish_count)
         return
 
     for i in range(64):
-        new_graph = moveShark(shark_moves[i])
-        copyMagic(cnt+1, new_graph, fish_count)
+        # new_graph = moveShark(shark_moves[i])
+        tmp_sx, tmp_sy = sx, sy
+        for j in range(3):
+            tmp_sx += shark_direction[j][0]
+            tmp_sy += shark_direction[j][1]
 
+        if 0 < tmp_sx < 5 and 0 < tmp_sy < 5:
+            fish_que = getFishQue(sea_graph)
+            new_sea = fishMove(fish_que, copy.deepcopy(sea_graph))
 
-fishMove(fish_que, sea)
+            tmp_sx, tmp_sy = sx, sy
+
+            for j in range(3):
+                new_sx = tmp_sx + shark_direction[j][0]
+                new_sy = tmp_sy + shark_direction[j][1]
+
+                if 0 < new_sx < 5 and 0 < new_sy < 5:
+                    if new_sea[new_sx][new_sy]:
+                        fish_count += len(new_sea[new_sx][new_sy])
+                        new_sea[new_sx][new_sy] = [-3]  # 물고기 냄새
+
+                    tmp_sx = new_sx
+                    tmp_sy = new_sy
+
+            new_sea[tmp_sx][tmp_sx].append(0)
+
+            for i in range(1, 5):
+                for j in range(1, 5):
+                    if new_sea[i][j]:
+                        if new_sea[i][j][0] < 0:
+                            new_sea[i][j][0] += 1
+                        if new_sea[i][j][0] == -1:
+                            new_sea[i][j] = []
+
+            copyMagic(cnt+1, new_sea, fish_count)
+
+# print(*sea, sep="\n")
+# fishMove(fish_que, sea)
+# print()
+copyMagic(0, sea, 0)
+print(*sea, sep="\n")
+
+print(answer)
