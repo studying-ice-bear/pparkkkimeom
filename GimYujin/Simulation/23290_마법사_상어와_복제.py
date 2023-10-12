@@ -1,186 +1,99 @@
+'''
+출처: https://ryu-e.tistory.com/107
+질문 게시판 참고: https://www.acmicpc.net/board/view/115292
+
+'''
 import copy
-from collections import deque
-M, S = map(int, input().split())
 
-# start_fish = deque()
-sea = [[[] for _ in range(5)] for _ in range(5)]
-fish_direction = [(0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1)]
-shark_direction = [(-1, 0), (0, -1), (1, 0), (0, 1)]
+def move_fish():
+    """
+    물고기 이동
+    1. 상어가 있는 칸, 물고기 냄새 칸, 벗어나는 칸 x
+    2. 45도 반시계 회전 후 이동. 이동 못하는 경우 그대로
+    :return:
+    """
+    res = [[[] for _ in range(4)] for _ in range(4)]
+    for x in range(4):
+        for y in range(4):
+            while temp[x][y]:
+                d = temp[x][y].pop()
+                for i in range(d, d - 8, -1):
+                    i %= 8
+                    nx, ny = x + f_dx[i], y + f_dy[i]
+                    if (nx, ny) != shark and 0 <= nx < 4 and 0 <= ny < 4 and not smell[nx][ny]:
+                        res[nx][ny].append(i)
+                        break
+                else:
+                    res[x][y].append(d)
+    return res
 
-for _ in range(M):
-    fx, fy, d = map(int, input().split())
-    # start_fish.append((fx, fy, d-1))
-    sea[fx][fy].append(d-1)
-
-sx, sy = map(int, input().split())
-# sea[sx][sy].append(-1)
-
-'''
-get the best shark move
-'''
-def sharkMove(sea_graph, smell_graph, shark_x, shark_y, cnt, fish_cnt, move):
-    global sx, sy
-    global max_eaten
-    if cnt == 3:
-        if fish_cnt > max_eaten:
-            max_eaten = fish_cnt
-            shark_moves.append((fish_cnt, move.copy()))
+def dfs(x, y, dep, cnt, visit):
+    """
+    상어 3칸 이동
+    1. 제외되는 물고기 수가 많고 > 이동방법 사전순(백트래킹하면 자동으로 됨)
+    2. 이동한 곳을 저장 > 물고기 냄새가 됨
+    """
+    global max_eat, shark, eat
+    if dep == 3:   # 3번 이동한 경우 그만
+        if max_eat < cnt:
+            max_eat = cnt
+            shark = (x, y)
+            eat = visit[:]
         return
+    for d in range(4):
+        nx = x + dx[d]
+        ny = y + dy[d]
+        if 0 <= nx < 4 and 0 <= ny < 4:
+            if (nx, ny) not in visit:  # 처음 방문, cnt에 죽은 물고기 수 추가
+                visit.append((nx, ny))
+                dfs(nx, ny, dep + 1, cnt + len(temp[nx][ny]), visit)
+                visit.pop()
+            else:  # 방문한 경우
+                dfs(nx, ny, dep + 1, cnt, visit)
 
-    for i in range(4):
-        nx = shark_x + shark_direction[i][0]
-        ny = shark_y + shark_direction[i][1]
+#       ←, ↖,   ↑,  ↗, →, ↘, ↓, ↙
+f_dx = [0, -1, -1, -1, 0, 1, 1, 1]
+f_dy = [-1, -1, 0, 1, 1, 1, 0, -1]
+dx = [-1, 0, 1, 0]
+dy = [0, -1, 0, 1]
 
-        if 0 < nx < 5 and 0 < ny < 5:
-            # if sea_graph[nx][ny] and sea_graph[nx][ny][0] < 0:
-            #     continue
+m, s = map(int, input().split())
+fish = [list(map(int, input().split())) for _ in range(m)]
+graph = [[[] for _ in range(4)] for _ in range(4)]
 
-            move.append(shark_direction[i])
-            tmp_arr = sea_graph[nx][ny]
-            if smell_graph[nx][ny] == 0:
-                # tmp_arr = []
-                smell_graph[nx][ny] = 3
-                sea_graph[nx][ny] = []
+for x, y, d in fish:
+    graph[x - 1][y - 1].append(d - 1)
 
-            sharkMove(copy.deepcopy(sea_graph), copy.deepcopy(smell_graph), nx, ny, cnt+1, fish_cnt+len(sea_graph[nx][ny]), move)
-            # visited[nx][ny] = False
-            move.remove(shark_direction[i])
-            sea_graph[nx][ny] = tmp_arr
+shark = tuple(map(lambda x: int(x) - 1, input().split()))
+smell = [[0] * 4 for _ in range(4)]
 
-
-def fishMove(sx, sy, fishs, graph, smell_graph):
-    # print("in fishMove()")
-
-    while fishs:
-        fish_x, fish_y, fish_d = fishs.popleft()
-        # print(fish_x, fish_y, fish_d)
-        for i in range(0, -8, -1):
-            nd = fish_d + i if fish_d + i >= 0 else 8 + fish_d + i
-            nx = fish_x + fish_direction[nd][0]
-            ny = fish_y + fish_direction[nd][1]
-
-            if nx == sx and ny == sy:
-                continue
-
-            if 0 < nx < 5 and 0 < ny < 5:
-                if smell_graph[nx][ny]:
-                    continue
-
-                graph[nx][ny].append(nd)
-                graph[fish_x][fish_y].remove(fish_d)
-                graph[nx][ny].sort()
-                graph[fish_x][fish_y].sort()
-                break
-
-    return graph
-
-
-def getFishQue(graph):
-    que = deque()
-    for i in range(5):
-        for j in range(5):
-            for d in graph[i][j]:
-                if d >= 0:
-                    que.append((i, j, d))
-    return que
-
-def copyFish(que, graph):
-    # print("copyFish")
-    # print(que)
-    while que:
-        fx, fy, fd = que.popleft()
-        graph[fx][fy].append(fd)
-        graph[fx][fy].sort()
-    return graph
-
-
-smell = [[0 for _ in range(5)] for _ in range(5)]
-for _ in range(S):
-    print(_)
-    fish_que = getFishQue(sea)
-    # print(*sea, sep="\n")
-    # print()
-    print(sx, sy)
-    sea = fishMove(sx, sy, fish_que.copy(), copy.deepcopy(sea), copy.deepcopy(smell))
-
-    print("fish moved")
-    print(*sea, sep="\n")
-    print()
-    shark_moves = []
-    max_eaten = 0
-
-    sharkMove(sea, smell, sx, sy, 0, 0, deque())
-    # shark_moves.sort(reverse=True)
-    print("shark_moves: ")
-    print(*shark_moves)
-    # print(*sea, sep="\n")
-    # print()
-    shark_eaten, moves = shark_moves[-1][0], shark_moves[-1][1]
-    # print(*sea, sep="\n")
-    # for i in range(1, 5):
-    #     for j in range(1, 5):
-    #         if sea[i][j] and sea[i][j][0] < 0:
-    #             sea[i][j][0] += 1
-    #         if sea[i][j] and sea[i][j][0] == -1:
-    #             sea[i][j].remove(-1)
-
-            # if sea[i][j]:
-            #     print(i, j, len(sea[i][j]))
-            # for k in range(len(sea[i][j])):
-            #     print(sea[i][j], k)
-            #     if sea[i][j][k] < 0:
-            #         sea[i][j][k] += 1
-            #     if sea[i][j][k] == -1:
-            #         sea[i][j].remove(-1)
-
-    # sea[sx][sy].remove(-1)
-
-    while moves:
-        dx, dy = moves.popleft()
-        sx = sx + dx
-        sy = sy + dy
-        smell[sx][sy] = 3
-        if sea[sx][sy]:
-            sea[sx][sy] = []
-
-    # sea[sx][sy].append(-1)
-    # print("상어 이동 후")
-    # print(*sea, sep="\n")
-    # print()
-
+for _ in range(s):
+    eat = list()
+    max_eat = -1
+    # 1. 모든 물고기 복제
+    temp = copy.deepcopy(graph)
+    # 2. 물고기 이동
+    temp = move_fish()
+    # 3. 상어이동 - 백트래킹
+    dfs(shark[0], shark[1],0, 0, list())
+    for x, y in eat:
+        if temp[x][y]:
+            temp[x][y] = []
+            smell[x][y] = 3   # 3번 돌아야 없어짐
+    # 4. 냄새 사라짐
     for i in range(4):
         for j in range(4):
             if smell[i][j]:
                 smell[i][j] -= 1
+    # 5. 복제 마법
+    for i in range(4):
+        for j in range(4):
+            graph[i][j] += temp[i][j]
 
-    print(sx, sy)
-    print("복제 마법")
-    print(fish_que)
-    sea = copyFish(fish_que.copy(), copy.deepcopy(sea))
-    print(*sea, sep="\n")
-    print()
-
-
-
-
+# 물고기 수 구하기
 answer = 0
-# print(*sea, sep="\n")
-for i in range(1, 5):
-    for j in range(1, 5):
-        answer += len(sea[i][j])
+for i in range(4):
+    for j in range(4):
+        answer += len(graph[i][j])
+
 print(answer)
-
-
-'''
-5 4
-4 3 5
-1 3 5
-2 4 2
-2 1 6
-3 4 4
-4 2
-
-
-1 1 1
-2 1 7
-'''
